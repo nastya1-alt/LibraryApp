@@ -1,33 +1,32 @@
-# LibraryApp
+using System;
 
-Это учебное консольное приложение на C#, созданное в рамках лабораторной работы №1.
+namespace LibraryApp.Models
+{
+    public class Book
+    {
+        public string Title { get; set; }
+        public string Author { get; set; }
+        public int Year { get; set; }
 
-## 🎯 Цель работы
-Изучить основы языка C# и объектно-ориентированного программирования (ООП):
-- создание классов и объектов
-- работа с полями
-- использование методов
+        public Book(string title, string author, int year)
+        {
+            if (string.IsNullOrWhiteSpace(title))
+                throw new ArgumentException("Название не может быть пустым", nameof(title));
 
-## 🧩 Описание проекта
-В проекте реализован класс `Book`, который описывает книгу.
+            if (string.IsNullOrWhiteSpace(author))
+                throw new ArgumentException("Автор не может быть пустым", nameof(author));
 
-### Поля класса:
-- `Title` — название книги  
-- `Author` — автор  
-- `Year` — год издания  
+            if (year < 0 || year > DateTime.Now.Year + 1)
+                throw new ArgumentOutOfRangeException(nameof(year), "Недопустимый год издания");
 
-### Метод:
-- `DisplayInfo()` — выводит информацию о книге в консоль  
+            Title = title;
+            Author = author;
+            Year = year;
+        }
 
-## 💻 Пример использования
-
-```csharp
-using LibraryApp.Models;
-
-Book myBook = new Book();
-
-myBook.Title = "1984";
-myBook.Author = "Джордж Оруэлл";
-myBook.Year = 1949;
-
-myBook.DisplayInfo();
+        public void DisplayInfo()
+        {
+            Console.WriteLine($"Название: {Title}, Автор: {Author}, Год: {Year}");
+        }
+    }
+}
